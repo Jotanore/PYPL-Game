@@ -702,6 +702,8 @@ MonoBehaviour:
   enemy: {fileID: 0}
   turnText: {fileID: 0}
   isTurnActive: 0
+  playerDefeatedScene: PlayerDefeated
+  enemyDefeatedScene: EnemyDefeated
 --- !u!1 &735090263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,6 +1983,7 @@ MonoBehaviour:
   - {fileID: -1625868843, guid: c9a17a2b5cc924aefbd80b2ddbd59786, type: 3}
   - {fileID: -1245133882, guid: c9a17a2b5cc924aefbd80b2ddbd59786, type: 3}
   - {fileID: -1442387040, guid: c9a17a2b5cc924aefbd80b2ddbd59786, type: 3}
+  spriteRenderer: {fileID: 0}
   healthBarSpriteRenderer: {fileID: 737179299}
   reloadIcons:
   - {fileID: 268278615}
@@ -1989,6 +1992,8 @@ MonoBehaviour:
   reloadIcon1: {fileID: 268278615}
   reloadIcon2: {fileID: 921771299}
   reloadIcon3: {fileID: 1692305771}
+  selectedAction: 
+  playerDead: 0
   timerSprites:
   - {fileID: 1465094087, guid: 343c5d31a7df7470d8e01a3dd5e738fd, type: 3}
   - {fileID: -184642543, guid: 343c5d31a7df7470d8e01a3dd5e738fd, type: 3}
@@ -2060,7 +2065,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110768322}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0288f6f5b52ec4a95980c2b6b2965b9a, type: 3}
   m_Name: 
@@ -2700,7 +2705,7 @@ GameObject:
   - component: {fileID: 1787579850}
   - component: {fileID: 1787579849}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2722,6 +2727,8 @@ MonoBehaviour:
   enemy: {fileID: 1838042693}
   turnText: {fileID: 872059986}
   isTurnActive: 0
+  playerDefeatedScene: PlayerDefeated
+  enemyDefeatedScene: EnemyDefeated
 --- !u!224 &1787579850
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2956,9 +2963,9 @@ MonoBehaviour:
   reloadIcon1: {fileID: 903638777}
   reloadIcon2: {fileID: 1459317800}
   reloadIcon3: {fileID: 2077746281}
+  enemyDead: 0
   player: {fileID: 1110768322}
   fadeDuration: 1
-  enemyDefeatedScene: EnemyDefeated
   gameControllerObject: {fileID: 1787579848}
   enemyIsGuarding: 0
 --- !u!95 &1838042694
