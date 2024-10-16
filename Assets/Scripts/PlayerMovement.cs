@@ -28,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject reloadIcon3;
     private int reloadCount = 0;
 
+
+
     public string selectedAction = null;
     private float turnTimer = 5f;
     private bool isPreparing = false;
@@ -94,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
             FadeOut();
         }
     }
+  
 
     void NextAction()
     {

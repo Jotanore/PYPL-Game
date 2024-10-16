@@ -11,6 +11,12 @@ public class GameManager : MonoBehaviour
     public TMP_Text turnText; // Referencia al TMP_Text para mostrar el turno actual
     public MainMenu mainMenu;
 
+    public GameObject j;
+    public GameObject l;
+    public GameObject i;
+    public GameObject u;
+    public GameObject k;
+
     private float turnTimer = 5f; // Temporizador para el turno
     public bool isTurnActive = false; // Estado del turno
     private int turnCount = 0; // Contador de turnos
@@ -25,6 +31,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         pvp = mainMenu.pvp;
+        CheckEnemyUI();
         // Asignar las referencias entre jugador y enemigo
         if (player != null)
         {
@@ -54,6 +61,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void CheckEnemyUI()
+    {
+        if (!pvp)
+        {
+            j.SetActive(false);
+            l.SetActive(false);
+            i.SetActive(false);
+            u.SetActive(false);
+            k.SetActive(false);
+        }
+    }
     void StartTurn()
     {
         // Iniciar el turno de preparación para el jugador y el enemigo
