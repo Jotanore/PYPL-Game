@@ -23,7 +23,7 @@ public class EnemyMovement : MonoBehaviour
     public GameObject reloadIcon2;
     public GameObject reloadIcon3;
 
-    private string selectedAction = null;
+    public string selectedAction = null;
     private bool isPreparing = false;
     private float turnTimer = 5f;
     private int reloadCount = 0;
@@ -39,8 +39,7 @@ public class EnemyMovement : MonoBehaviour
     
     //Para cambiar la escena al morir
 
-    public GameObject gameControllerObject;
-    private GameManager gameManagerScript;
+    public GameManager gameManagerScript;
     
     //Guarding and damage logic
     public bool enemyIsGuarding = false;
@@ -48,25 +47,29 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
-       
         animator = GetComponent<Animator>();
         animator.enabled = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerMovement = player.GetComponent<PlayerMovement>();
-        gameManagerScript = gameControllerObject.GetComponent<GameManager>(); //para el deathScene
         InitializeReloadIcons();
         StartPreparationTurn();
     }
 
     void Update()
     {
+        NextAction();
         playerMovement = player.GetComponent<PlayerMovement>();
         if (isPreparing)
         {
             turnTimer -= Time.deltaTime;
-            if (turnTimer <= 0)
+            
+            if (turnTimer <= 0 && selectedAction != null)
             {
                 ExecuteSelectedAction();
+            }
+            else if (turnTimer <= 0 && selectedAction == null)
+            {
+                SetIdleState();
             }
         }
 
@@ -77,16 +80,43 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+
+    void NextAction()
+    {
+        if (Input.GetKey(KeyCode.J)) UpdateSelectedAction("MoveLeft");
+        if (Input.GetKey(KeyCode.L)) UpdateSelectedAction("MoveRight");
+        if (Input.GetKey(KeyCode.K)) UpdateSelectedAction("Reload");
+        if (Input.GetKey(KeyCode.U)) UpdateSelectedAction("Guard");
+        if (Input.GetKey(KeyCode.I)) UpdateSelectedAction("Attack");
+        if (Input.GetKey(KeyCode.Q)) ;
+    }
+
     public void StartPreparationTurn()
     {
         if (!isPreparing)
         {
-            selectedAction = GetRandomAction();
+            if (gameManagerScript.pvp == true)
+            {
+                selectedAction = null;
+            }
+            else
+            {
+                selectedAction = GetRandomAction();
+            }
+            
             //enemyIsGuarding = false;
             turnTimer = 5f;
             isPreparing = true;
             Debug.Log("Enemy started preparing: " + selectedAction);
         }
+    }
+
+    void UpdateSelectedAction(string action)
+    {
+        if (!isPreparing) return;
+
+        selectedAction = action;
+        Debug.Log($"Player selected action: {selectedAction}");
     }
 
     public void ExecuteSelectedAction()
@@ -96,6 +126,7 @@ public class EnemyMovement : MonoBehaviour
 
         Debug.Log("Enemy executing action: " + selectedAction);
 
+        /*
         if (selectedAction == "MoveRight")
         {
             MoveRight();
@@ -121,6 +152,35 @@ public class EnemyMovement : MonoBehaviour
             enemyIsGuarding = false;
         }
 
+        */
+
+        switch (selectedAction)
+        {
+            case "MoveRight":
+                MoveRight();
+                enemyIsGuarding = false;
+                break;
+
+            case "MoveLeft":
+                MoveLeft();
+                enemyIsGuarding = false;
+                break;
+
+            case "Reload":
+                ReloadAction();
+                enemyIsGuarding = false;
+                break;
+
+            case "Guard":
+                GuardAction();
+                break;
+
+            case "Attack":
+                AttackAction();
+                enemyIsGuarding = false;
+                break;
+
+        }
         UpdateReloadIcons();
     }
 
@@ -181,6 +241,12 @@ public class EnemyMovement : MonoBehaviour
         SetStaticSprite(guardSprite);
     }
 
+    void SetIdleState()
+    {
+        animator.enabled = false;
+        spriteRenderer.sprite = idleSprite;
+    }
+
     void AttackAction()
     {
         if (reloadCount > 0)
@@ -205,6 +271,7 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             Debug.Log("Enemy has no reloads to attack.");
+            SetIdleState();
         }
 
         }
@@ -371,8 +438,34 @@ public class EnemyMovement : MonoBehaviour
 
     private string GetRandomAction()
     {
+
+        int NumGenerator()
+        {
+           return Random.Range(0, 100);
+        }
+
         string[] actions = new string[] { "MoveRight", "MoveLeft", "Reload", "Guard", "Attack" };
-        return actions[Random.Range(0, actions.Length)];
+        //return actions[Random.Range(0, actions.Length)];
+
+        if(transform.position.x - player.transform.position.x < 3)
+        {
+            switch (NumGenerator())
+            {
+                case <= 50:
+                    return "Attack"; 
+
+                case > 51:
+                    return "Guard";
+            }
+        }
+
+        if (transform.position.x - player.transform.position.x >= 3)
+        {
+            return "MoveLeft";
+        }
+
+
+        return null;
     }
 
    

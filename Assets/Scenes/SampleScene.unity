@@ -704,6 +704,7 @@ MonoBehaviour:
   isTurnActive: 0
   playerDefeatedScene: PlayerDefeated
   enemyDefeatedScene: EnemyDefeated
+  pvp: 1
 --- !u!1 &735090263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1888,7 +1889,6 @@ GameObject:
   - component: {fileID: 1110768325}
   - component: {fileID: 1110768326}
   - component: {fileID: 1110768327}
-  - component: {fileID: 1110768329}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2041,7 +2041,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110768322}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2055,34 +2055,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7.31, y: -0.6}
+  m_AnchoredPosition: {x: -7.3099976, y: -0.6000061}
   m_SizeDelta: {x: 2.36, y: 3.8}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1110768329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110768322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0288f6f5b52ec4a95980c2b6b2965b9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 3
-  healthSprites:
-  - {fileID: -9888494, guid: c9a17a2b5cc924aefbd80b2ddbd59786, type: 3}
-  - {fileID: -1625868843, guid: c9a17a2b5cc924aefbd80b2ddbd59786, type: 3}
-  - {fileID: -1245133882, guid: c9a17a2b5cc924aefbd80b2ddbd59786, type: 3}
-  - {fileID: -1442387040, guid: c9a17a2b5cc924aefbd80b2ddbd59786, type: 3}
-  healthBarSpriteRenderer: {fileID: 737179299}
-  playerSpriteRenderer: {fileID: 1110768323}
-  reloadIcons:
-  - {fileID: 268278615}
-  - {fileID: 921771299}
-  - {fileID: 1692305771}
-  fadeDuration: 1
 --- !u!1 &1267086349
 GameObject:
   m_ObjectHideFlags: 0
@@ -2729,6 +2704,7 @@ MonoBehaviour:
   isTurnActive: 0
   playerDefeatedScene: PlayerDefeated
   enemyDefeatedScene: EnemyDefeated
+  pvp: 0
 --- !u!224 &1787579850
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2963,10 +2939,11 @@ MonoBehaviour:
   reloadIcon1: {fileID: 903638777}
   reloadIcon2: {fileID: 1459317800}
   reloadIcon3: {fileID: 2077746281}
+  selectedAction: 
   enemyDead: 0
   player: {fileID: 1110768322}
   fadeDuration: 1
-  gameControllerObject: {fileID: 1787579848}
+  gameManagerScript: {fileID: 1787579849}
   enemyIsGuarding: 0
 --- !u!95 &1838042694
 Animator:

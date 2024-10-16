@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private int turnCount = 0; // Contador de turnos
     public string playerDefeatedScene = "PlayerDefeated";
     public string enemyDefeatedScene = "EnemyDefeated";
+    public bool pvp = false;
 
     void Start()
     {

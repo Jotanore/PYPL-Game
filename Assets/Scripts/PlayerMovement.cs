@@ -79,12 +79,16 @@ public class PlayerMovement : MonoBehaviour
         {
             turnTimer -= Time.deltaTime;
             UpdateTimerSprite();
-            if (turnTimer <= 0)
+            if (turnTimer <= 0 && selectedAction != null )
             {
                 ExecuteSelectedAction();
+            }else if (turnTimer <= 0 && selectedAction == null)
+            {
+                SetIdleState();
             }
         }
 
+     
         if (isFading)
         {
             FadeOut();
@@ -98,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.S)) UpdateSelectedAction("Reload");
         if (Input.GetKey(KeyCode.E)) UpdateSelectedAction("Guard");
         if (Input.GetKey(KeyCode.W)) UpdateSelectedAction("Attack");
-        if (Input.GetKey(KeyCode.Q)) enemyMovement.enemyDead = true;
+        if (Input.GetKey(KeyCode.Q)) ;
     }
 
     void UpdateSelectedAction(string action)
@@ -112,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
     public void ExecuteSelectedAction()
     {
         isPreparing = false;
-
+        /*
         if (selectedAction == "MoveRight")
         {
             MoveRight();
@@ -137,7 +141,34 @@ public class PlayerMovement : MonoBehaviour
             AttackAction();
             playerIsGuarding = false;
         }
+        */
+        switch (selectedAction)
+        {
+            case "MoveRight":
+                MoveRight();
+                playerIsGuarding = false;
+                break;
 
+            case "MoveLeft":
+                MoveLeft();
+                playerIsGuarding = false;
+                break;
+
+            case "Reload":
+                ReloadAction();
+                playerIsGuarding = false;
+                break;
+
+            case "Guard":
+                GuardAction();
+                break;
+
+            case "Attack":
+                AttackAction();
+                playerIsGuarding = false;
+                break;
+
+        }
         StartPreparationTurn();
     }
 
