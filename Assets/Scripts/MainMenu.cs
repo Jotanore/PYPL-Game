@@ -5,7 +5,6 @@ public class MainMenu : MonoBehaviour
 {
 
     public static MainMenu Instance;
-    public GameManager gameManager;
 
     public string gameSceneName = "Sample Scene"; // Nombre de la escena del juego
     public bool pvp;

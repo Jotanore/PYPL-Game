@@ -3,9 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class EndScreen : MonoBehaviour
 {
-    public string gameSceneName = "MainMenu"; // Nombre de la escena del juego
+    public string menuSceneName = "MainMenu";
+    public string gameSceneName = "Sample Scene";// Nombre de la escena del juego
 
-    public void PlayGame()
+    public void Menu()
+    {
+        SceneManager.LoadScene(menuSceneName);
+    }
+
+    public void Play()
     {
         SceneManager.LoadScene(gameSceneName);
     }
