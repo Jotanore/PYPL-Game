@@ -1,7 +1,10 @@
 using UnityEngine;
 using TMPro; // Asegurarse de tener la referencia a TextMeshPro
+using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
-public class GameController : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public PlayerMovement player;
     public EnemyMovement enemy;
@@ -10,6 +13,8 @@ public class GameController : MonoBehaviour
     private float turnTimer = 5f; // Temporizador para el turno
     public bool isTurnActive = false; // Estado del turno
     private int turnCount = 0; // Contador de turnos
+    public string playerDefeatedScene = "PlayerDefeated";
+    public string enemyDefeatedScene = "EnemyDefeated";
 
     void Start()
     {
@@ -30,6 +35,8 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        DeathMenuEnemy();
+        DeathMenuPlayer();
         if (isTurnActive)
         {
             turnTimer -= Time.deltaTime;
@@ -82,5 +89,43 @@ public class GameController : MonoBehaviour
         {
             turnText.text = $"Turn: {turnCount}";
         }
+    }
+
+
+    public void DeathMenuPlayer()
+    {
+        if (player.playerDead)
+        { // Iniciar la corutina de espera y cambio de escena
+            StartCoroutine(WaitAndLoadPlayerDefeatedScene());
+        } 
+        
+    }
+
+    private IEnumerator WaitAndLoadPlayerDefeatedScene()
+    {
+        // Esperar 3 segundos
+        yield return new WaitForSeconds(2f);
+
+        // Cargar la nueva escena
+        SceneManager.LoadScene(playerDefeatedScene);
+    }
+
+    public void DeathMenuEnemy()
+    {
+        if (enemy.enemyDead)
+        {
+            // Iniciar la corutina de espera y cambio de escena
+            StartCoroutine(WaitAndLoadEnemyDefeatedScene());
+            isTurnActive = false;
+        }
+    }
+
+    private IEnumerator WaitAndLoadEnemyDefeatedScene()
+    {
+        // Esperar 3 segundos
+        yield return new WaitForSeconds(2f);
+
+        // Cargar la nueva escena
+        SceneManager.LoadScene(enemyDefeatedScene);
     }
 }

@@ -27,6 +27,7 @@ public class EnemyMovement : MonoBehaviour
     private bool isPreparing = false;
     private float turnTimer = 5f;
     private int reloadCount = 0;
+    public bool enemyDead = false;
 
     public GameObject player;
 
@@ -37,9 +38,9 @@ public class EnemyMovement : MonoBehaviour
     private float fadeStartTime; // Tiempo en el que comenzó el desvanecimiento
     
     //Para cambiar la escena al morir
-    public string enemyDefeatedScene = "EnemyDefeated";
+
     public GameObject gameControllerObject;
-    private GameController gameControllerScript;
+    private GameManager gameManagerScript;
     
     //Guarding and damage logic
     public bool enemyIsGuarding = false;
@@ -52,7 +53,7 @@ public class EnemyMovement : MonoBehaviour
         animator.enabled = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         playerMovement = player.GetComponent<PlayerMovement>();
-        gameControllerScript = gameControllerObject.GetComponent<GameController>(); //para el deathScene
+        gameManagerScript = gameControllerObject.GetComponent<GameManager>(); //para el deathScene
         InitializeReloadIcons();
         StartPreparationTurn();
     }
@@ -72,7 +73,7 @@ public class EnemyMovement : MonoBehaviour
         if (isFading)
         {
             FadeOut();
-            DeathMenuEnemy();
+            enemyDead = true;
         }
     }
 
@@ -262,6 +263,7 @@ public class EnemyMovement : MonoBehaviour
             if (health <= 0)
             {
              Debug.Log("Enemy is defeated!");
+                enemyDead = true;
             // Aquí puedes agregar la lógica para cuando el enemigo es derrotado
             }
             UpdateHealthSprite();
@@ -292,7 +294,7 @@ public class EnemyMovement : MonoBehaviour
                 Debug.Log("Enemy is dead!");
                 // Iniciar el desvanecimiento y ocultar elementos
                 StartFading();
-                DeathMenuEnemy();
+                enemyDead = true;
             }
         }
     }
@@ -373,20 +375,5 @@ public class EnemyMovement : MonoBehaviour
         return actions[Random.Range(0, actions.Length)];
     }
 
-    public void DeathMenuEnemy()
-    {
-        // Iniciar la corutina de espera y cambio de escena
-        StartCoroutine(WaitAndLoadEnemyDefeatedScene());
-        GameController gameControllerScript = gameControllerObject.GetComponent<GameController>();
-        gameControllerScript.isTurnActive = false;
-    }
-
-    private IEnumerator WaitAndLoadEnemyDefeatedScene()
-    {
-        // Esperar 3 segundos
-        yield return new WaitForSecondsRealtime(2f);
-
-        // Cargar la nueva escena
-        SceneManager.LoadScene(enemyDefeatedScene);
-    }
+   
 }

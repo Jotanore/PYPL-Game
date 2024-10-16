@@ -1,4 +1,0 @@
-repository "PYPL@Jotanore@cloud"
-  path "/"
-    br "/main"
-    co "/main"

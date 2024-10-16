@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public Sprite reloadSprite;
     public Sprite guardSprite;
     public Sprite[] healthSprites; // Sprites para representar el estado de salud
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     public SpriteRenderer healthBarSpriteRenderer; // SpriteRenderer para la barra de salud
     private Animator animator;
     public GameObject[] reloadIcons; // Array de GameObjects que contienen los iconos de recarga)
@@ -28,9 +28,10 @@ public class PlayerMovement : MonoBehaviour
     public GameObject reloadIcon3;
     private int reloadCount = 0;
 
-    private string selectedAction = null;
+    public string selectedAction = null;
     private float turnTimer = 5f;
     private bool isPreparing = false;
+    public bool playerDead = false;
 
     public Sprite[] timerSprites;
     public SpriteRenderer timerSpriteRenderer;
@@ -51,17 +52,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        /*
         leftButton.onClick.AddListener(() => UpdateSelectedAction("MoveLeft"));
         rightButton.onClick.AddListener(() => UpdateSelectedAction("MoveRight"));
         reloadButton.onClick.AddListener(() => UpdateSelectedAction("Reload"));
         guardButton.onClick.AddListener(() => UpdateSelectedAction("Guard"));
         attackButton.onClick.AddListener(() => UpdateSelectedAction("Attack"));
-
+        */
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         animator.enabled = false;
         spriteRenderer.sprite = idleSprite; // Inicializar con el sprite idle
         enemyMovement = enemy.GetComponent<EnemyMovement>();
+        playerDead = false;
 
         InitializeReloadIcons();
         StartPreparationTurn();
@@ -70,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        NextAction();
         enemyMovement = enemy.GetComponent<EnemyMovement>();
         if (isPreparing)
         {
@@ -85,6 +89,16 @@ public class PlayerMovement : MonoBehaviour
         {
             FadeOut();
         }
+    }
+
+    void NextAction()
+    {
+        if (Input.GetKey(KeyCode.A)) UpdateSelectedAction("MoveLeft");
+        if (Input.GetKey(KeyCode.D)) UpdateSelectedAction("MoveRight");
+        if (Input.GetKey(KeyCode.S)) UpdateSelectedAction("Reload");
+        if (Input.GetKey(KeyCode.E)) UpdateSelectedAction("Guard");
+        if (Input.GetKey(KeyCode.W)) UpdateSelectedAction("Attack");
+        if (Input.GetKey(KeyCode.Q)) enemyMovement.enemyDead = true;
     }
 
     void UpdateSelectedAction(string action)
@@ -318,7 +332,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Player is dead!");
                 // Iniciar el desvanecimiento y ocultar elementos
                 StartFading();
-                DeathMenuPlayer();
+                playerDead = true;
             }
         }
     }
@@ -393,20 +407,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void DeathMenuPlayer()
-    {
-        // Iniciar la corutina de espera y cambio de escena
-        StartCoroutine(WaitAndLoadPlayerDefeatedScene());
-    }
-
-    private IEnumerator WaitAndLoadPlayerDefeatedScene()
-    {
-        // Esperar 3 segundos
-        yield return new WaitForSecondsRealtime(2f);
-
-        // Cargar la nueva escena
-        SceneManager.LoadScene(playerDefeatedScene);
-    }
-
+    
 }
 
