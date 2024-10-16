@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public PlayerMovement player;
     public EnemyMovement enemy;
     public TMP_Text turnText; // Referencia al TMP_Text para mostrar el turno actual
+    public MainMenu mainMenu;
 
     private float turnTimer = 5f; // Temporizador para el turno
     public bool isTurnActive = false; // Estado del turno
@@ -17,8 +18,13 @@ public class GameManager : MonoBehaviour
     public string enemyDefeatedScene = "EnemyDefeated";
     public bool pvp = false;
 
+    private void Awake()
+    {
+        mainMenu = GameObject.Find("MainMenu").GetComponent<MainMenu>();
+    }
     void Start()
     {
+        pvp = mainMenu.pvp;
         // Asignar las referencias entre jugador y enemigo
         if (player != null)
         {
@@ -92,6 +98,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void CheckPVP()
+    {
+
+    }
 
     public void DeathMenuPlayer()
     {
